@@ -5,7 +5,7 @@ export const metadata: Metadata = {
 };
 
 const Homepage = async () => {
-  return <div>test</div>;
+  return <div>DnD Game</div>;
 };
 
 export default Homepage;
