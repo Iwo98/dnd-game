@@ -37,12 +37,6 @@ const Menu = () => {
               </Link>
             </Button>
             <ModeToggle />
-            <Button asChild variant="ghost">
-              <Link href="/cart">
-                <ShoppingCart />
-                Cart
-              </Link>
-            </Button>
           </SheetContent>
         </Sheet>
       </nav>

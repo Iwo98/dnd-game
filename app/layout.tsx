@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Iceberg } from "next/font/google";
 import "@/assets/styles/globals.css";
 import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/lib/constants";
 import { ThemeProvider } from "next-themes";
 
-const inter = Montserrat({ subsets: ["latin"] });
+const inter = Iceberg({ subsets: ["latin"], weight: ["400"], style: "normal" });
 
 export const metadata: Metadata = {
   title: {
