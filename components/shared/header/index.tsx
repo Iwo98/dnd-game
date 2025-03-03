@@ -6,7 +6,7 @@ import Menu from "./menu";
 const Header = () => {
   return (
     <header className="w-full border-b">
-      <div className="wrapper flex-between">
+      <div className="p-2 lg:p-4 flex-between">
         <div className="flex-start">
           <Link href="/" className="flex-start">
             <Image
