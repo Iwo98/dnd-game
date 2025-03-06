@@ -1,7 +1,7 @@
 import Link from "next/link";
 import ModeToggle from "./mode-toggle";
 import { Button } from "@/components/ui/button";
-import { EllipsisVertical, ShoppingCart, UserIcon } from "lucide-react";
+import { EllipsisVertical, UserIcon } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -37,12 +37,6 @@ const Menu = () => {
               </Link>
             </Button>
             <ModeToggle />
-            <Button asChild variant="ghost">
-              <Link href="/cart">
-                <ShoppingCart />
-                Cart
-              </Link>
-            </Button>
           </SheetContent>
         </Sheet>
       </nav>
