@@ -10,7 +10,7 @@ interface Props {
   onClick: () => void;
 }
 
-const CharacterClass = ({ label, svg, linkProps, onClick }: Props) => {
+const CharacterClassTile = ({ label, svg, linkProps, onClick }: Props) => {
   return (
     <Link onClick={onClick} {...linkProps}>
       <div className="w-full flex gap-2 justify-start items-center p-2 border  border-neutral-300 rounded-xl">
@@ -21,4 +21,4 @@ const CharacterClass = ({ label, svg, linkProps, onClick }: Props) => {
   );
 };
 
-export default CharacterClass;
+export default CharacterClassTile;

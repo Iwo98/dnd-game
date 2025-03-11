@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Iceberg } from "next/font/google";
-import "@/assets/styles/globals.css";
+import "@/src/assets/styles/globals.css";
 import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/src/lib/constants";
 import { ThemeProvider } from "next-themes";
 

@@ -1,13 +1,14 @@
 import Link from "next/link";
 import ModeToggle from "./mode-toggle";
-import { EllipsisVertical, Sheet, UserIcon } from "lucide-react";
+import { EllipsisVertical, UserIcon } from "lucide-react";
 import { Button } from "../../ui/button";
 import {
+  Sheet,
   SheetTrigger,
   SheetContent,
   SheetTitle,
   SheetDescription,
-} from "../../ui/sheet";
+} from "@/src/components/ui/sheet";
 
 const Menu = () => {
   return (
