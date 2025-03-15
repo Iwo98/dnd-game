@@ -2,7 +2,6 @@
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Button } from "@/src/components/ui/button";
@@ -18,38 +17,43 @@ import { Input } from "@/src/components/ui/input";
 
 const loginSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
+  username: z.string().min(1, "Nickname must be at least 3 characters"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const router = useRouter();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
+      username: "",
       password: "",
     },
   });
 
-  const onSubmit = async ({ email, password }: z.infer<typeof loginSchema>) => {
-    const result = await signIn("credentials", {
-      redirect: false,
-      email: email,
-      password: password,
+  const onSubmit = async ({
+    email,
+    password,
+    username,
+  }: z.infer<typeof loginSchema>) => {
+    const res = await fetch("/api/register", {
+      method: "POST",
+      body: JSON.stringify({ email, password, username }),
+      headers: { "Content-Type": "application/json" },
     });
-    if (!result?.ok) {
-      form.setError("email", {
-        type: "manual",
-      });
+
+    if (!res.ok) {
+      const errorData = await res.json();
       form.setError("password", {
         type: "manual",
-        message: "Invalid email or password",
+        message: errorData.error,
       });
       return;
     }
 
     form.reset();
-    router.replace("create-character/pick-class");
+    router.push("/login");
   };
 
   return (
@@ -62,7 +66,20 @@ const LoginPage = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Email" {...field} />
+                <Input type="email" placeholder="Email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input type="text" placeholder="Username" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -82,11 +99,11 @@ const LoginPage = () => {
           )}
         />
         <Button className="w-full" type="submit">
-          Log in
+          Sign in
         </Button>
       </form>
     </Form>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

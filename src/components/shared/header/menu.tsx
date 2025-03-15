@@ -2,6 +2,7 @@ import Link from "next/link";
 import ModeToggle from "./mode-toggle";
 import { EllipsisVertical, UserIcon } from "lucide-react";
 import { Button } from "../../ui/button";
+import LogoutButton from "../../shared/header/logout-button";
 import {
   Sheet,
   SheetTrigger,
@@ -9,14 +10,18 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/src/components/ui/sheet";
+import { authOptions } from "@/src/auth";
+import { getServerSession } from "next-auth";
 
-const Menu = () => {
+const Menu = async () => {
+  const session = await getServerSession(authOptions);
+
   return (
     <div className="flex justify-end gap-3">
       <nav className="md:flex hidden w-full max-w-xs gap-1">
         <ModeToggle />
         <Button asChild>
-          <Link href="/sign-in">
+          <Link href="/login">
             <UserIcon />
             Sign In
           </Link>
@@ -30,12 +35,20 @@ const Menu = () => {
           <SheetContent className="flex flex-col items-start">
             <SheetTitle>Menu</SheetTitle>
             <SheetDescription />
-            <Button asChild>
-              <Link href="/sign-in">
-                <UserIcon />
-                Sign In
-              </Link>
-            </Button>
+            {session?.user.username ? (
+              <div className="flex align-middle">
+                <UserIcon height={20} />
+                <span>{session.user.username}</span>
+              </div>
+            ) : (
+              <Button asChild>
+                <Link href="/login">
+                  <UserIcon />
+                  Sign In
+                </Link>
+              </Button>
+            )}
+            <LogoutButton session={session} />
             <ModeToggle />
           </SheetContent>
         </Sheet>

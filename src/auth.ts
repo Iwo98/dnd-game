@@ -1,6 +1,6 @@
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { users } from "@/src/lib/db";
+import { authorize } from "./app/api/users";
 
 export const authOptions = {
   providers: [
@@ -11,17 +11,17 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const user = users.find(
-          (user) =>
-            user.email === credentials?.email &&
-            user.password === credentials?.password
-        );
+        if (!credentials) {
+          return null;
+        }
+
+        const user = authorize(credentials.email, credentials.password);
 
         if (!user) return null;
 
         return {
           id: user.id,
-          name: user.username,
+          username: user.username,
           email: user.email,
           role: user.role,
         };
@@ -33,6 +33,7 @@ export const authOptions = {
       if (user) {
         token.role = user.role;
         token.email = user.email;
+        token.username = user.username;
       }
       return token;
     },
@@ -40,6 +41,7 @@ export const authOptions = {
     async session({ session, token }) {
       if (session.user) {
         session.user.role = token.role;
+        session.user.username = token.username;
       }
       return session;
     },
