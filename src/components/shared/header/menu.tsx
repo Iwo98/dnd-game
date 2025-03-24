@@ -13,19 +13,41 @@ import {
 import { authOptions } from "@/src/auth";
 import { getServerSession } from "next-auth";
 
-const Menu = async () => {
+interface Props {
+  hasSesssionButtons: boolean;
+}
+
+const Menu = async ({ hasSesssionButtons }: Props) => {
   const session = await getServerSession(authOptions);
+
+  const sessionButtons = (
+    <>
+      {session?.user.username ? (
+        <div className="flex flex-col items-start gap-4 md:flex-row md:items-center">
+          <div className="flex align-middle gap-1">
+            <UserIcon height={20} />
+            <span>{session.user.username}</span>
+          </div>
+          <LogoutButton session={session} />
+        </div>
+      ) : (
+        <>
+          <Button asChild>
+            <Link href="/login">
+              <UserIcon />
+              Sign In
+            </Link>
+          </Button>
+        </>
+      )}
+    </>
+  );
 
   return (
     <div className="flex justify-end gap-3">
       <nav className="md:flex hidden w-full max-w-xs gap-1">
         <ModeToggle />
-        <Button asChild>
-          <Link href="/login">
-            <UserIcon />
-            Sign In
-          </Link>
-        </Button>
+        {hasSesssionButtons && sessionButtons}
       </nav>
       <nav className="md:hidden">
         <Sheet>
@@ -35,20 +57,7 @@ const Menu = async () => {
           <SheetContent className="flex flex-col items-start">
             <SheetTitle>Menu</SheetTitle>
             <SheetDescription />
-            {session?.user.username ? (
-              <div className="flex align-middle">
-                <UserIcon height={20} />
-                <span>{session.user.username}</span>
-              </div>
-            ) : (
-              <Button asChild>
-                <Link href="/login">
-                  <UserIcon />
-                  Sign In
-                </Link>
-              </Button>
-            )}
-            <LogoutButton session={session} />
+            {hasSesssionButtons && sessionButtons}
             <ModeToggle />
           </SheetContent>
         </Sheet>

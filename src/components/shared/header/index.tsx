@@ -3,7 +3,11 @@ import Link from "next/link";
 import { APP_NAME } from "@/src/lib/constants";
 import Menu from "./menu";
 
-const Header = () => {
+interface Props {
+  hasSesssionButtons: boolean;
+}
+
+const Header = ({ hasSesssionButtons }: Props) => {
   return (
     <header className="w-full border-b">
       <div className="p-2 lg:p-4 flex-between">
@@ -22,7 +26,7 @@ const Header = () => {
             </span>
           </Link>
         </div>
-        <Menu />
+        <Menu hasSesssionButtons={hasSesssionButtons} />
       </div>
     </header>
   );

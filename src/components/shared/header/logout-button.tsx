@@ -4,6 +4,7 @@ import { Session } from "next-auth";
 import { Button } from "../../ui/button";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { LogOutIcon } from "lucide-react";
 
 interface Props {
   session: Session | null;
@@ -22,8 +23,8 @@ const LogoutButton = ({ session }: Props) => {
   }
 
   return (
-    <Button variant="default" onClick={onClick}>
-      Log out
+    <Button size="default" variant="destructive" onClick={onClick}>
+      <LogOutIcon size={20} />
     </Button>
   );
 };
