@@ -1,4 +1,4 @@
-import Footer from "@/src/components/footer";
+// import Footer from "@/src/components/footer";
 
 import Header from "@/src/components/shared/header";
 
@@ -7,10 +7,10 @@ const AuthLayout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => (
-  <div className="flex h-full flex-col">
+  <div>
     <Header session={null} hasSesssionButtons={false} />
     <main className="flex-1 wrapper h-dvh">{children}</main>
-    <Footer />
+    {/* <Footer /> */}
   </div>
 );
 

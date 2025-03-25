@@ -12,7 +12,7 @@ const DashboardLayout = async ({
   const session = await getServerSession(authOptions);
 
   return (
-    <div className="flex h-full flex-col">
+    <div>
       <Header session={session} hasSesssionButtons />
       <main className="flex-1 wrapper h-dvh">{children}</main>
     </div>
