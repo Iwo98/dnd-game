@@ -3,7 +3,6 @@
 import { Session } from "next-auth";
 import { Button } from "../../ui/button";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { LogOutIcon } from "lucide-react";
 
 interface Props {
@@ -11,11 +10,8 @@ interface Props {
 }
 
 const LogoutButton = ({ session }: Props) => {
-  const router = useRouter();
-
   const onClick = () => {
-    signOut();
-    router.replace("/login");
+    signOut({ callbackUrl: "/", redirect: true });
   };
 
   if (!session) {

@@ -49,7 +49,7 @@ const LoginPage = () => {
     }
 
     form.reset();
-    router.replace("create-character/pick-class");
+    router.replace("dashboard");
   };
 
   return (

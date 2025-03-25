@@ -10,16 +10,14 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/src/components/ui/sheet";
-import { authOptions } from "@/src/auth";
-import { getServerSession } from "next-auth";
+import { Session } from "next-auth";
 
 interface Props {
   hasSesssionButtons: boolean;
+  session: Session | null;
 }
 
-const Menu = async ({ hasSesssionButtons }: Props) => {
-  const session = await getServerSession(authOptions);
-
+const Menu = async ({ hasSesssionButtons, session }: Props) => {
   const sessionButtons = (
     <>
       {session?.user.username ? (

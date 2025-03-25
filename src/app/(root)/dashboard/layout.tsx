@@ -1,19 +1,22 @@
 // import Footer from "@/components/footer";
 
-import AuthRequired from "@/src/components/shared/auth-required";
 import Header from "@/src/components/shared/header";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/src/auth";
 
-export default function RootLayout({
+const DashboardLayout = async ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
+  const session = await getServerSession(authOptions);
+
   return (
-    <AuthRequired role="player">
-      <div className="flex h-full flex-col">
-        <Header hasSesssionButtons />
-        <main className="flex-1 wrapper h-dvh">{children}</main>
-      </div>
-    </AuthRequired>
+    <div className="flex h-full flex-col">
+      <Header session={session} hasSesssionButtons />
+      <main className="flex-1 wrapper h-dvh">{children}</main>
+    </div>
   );
-}
+};
+
+export default DashboardLayout;

@@ -2,12 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { APP_NAME } from "@/src/lib/constants";
 import Menu from "./menu";
+import { Session } from "next-auth";
 
 interface Props {
   hasSesssionButtons: boolean;
+  session: Session | null;
 }
 
-const Header = ({ hasSesssionButtons }: Props) => {
+const Header = ({ hasSesssionButtons, session }: Props) => {
   return (
     <header className="w-full border-b">
       <div className="p-2 lg:p-4 flex-between">
@@ -26,7 +28,7 @@ const Header = ({ hasSesssionButtons }: Props) => {
             </span>
           </Link>
         </div>
-        <Menu hasSesssionButtons={hasSesssionButtons} />
+        <Menu session={session} hasSesssionButtons={hasSesssionButtons} />
       </div>
     </header>
   );

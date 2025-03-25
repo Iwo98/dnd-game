@@ -1,7 +1,7 @@
 "use client";
 
 import Link, { LinkProps } from "next/link";
-import Svg, { SvgProps } from "../../shared/Svg";
+import Svg, { SvgProps } from "../../../../shared/Svg";
 
 interface Props {
   label: string;
