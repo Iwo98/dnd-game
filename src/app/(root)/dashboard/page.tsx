@@ -6,17 +6,20 @@ import Svg from "@/src/components/shared/Svg";
 import { characterClassess } from "@/src/lib/constants/characterClasses";
 
 const DashboardPage = async () => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/characters`,
-    {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    }
-  );
+  let characters: Character[] = [];
 
-  const characters: Character[] = await res.json();
-
-  console.log("characters", characters);
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/characters`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    characters = await res.json();
+  } catch (error) {
+    console.error("Error fetching characters:", error);
+  }
 
   return (
     <AuthRequired role="player">
