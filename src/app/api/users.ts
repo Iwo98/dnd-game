@@ -4,15 +4,15 @@ const users: User[] = [
   {
     id: "1",
     username: "Brzynia",
-    password: "player123",
+    password: "admin123",
     role: "player",
-    email: "brzynia@pog.champ",
+    email: "iwo@gmail.com",
   },
   {
     id: "2",
     username: "Mix",
-    email: "mix@gey.rizz",
-    password: "dm123",
+    email: "mix@bold.com",
+    password: "admin123",
     role: "dm",
   },
 ];
