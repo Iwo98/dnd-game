@@ -16,6 +16,11 @@ const DashboardPage = async () => {
         headers: { "Content-Type": "application/json" },
       }
     );
+
+    if (res.status !== 200) {
+      throw new Error("Failed to fetch characters");
+    }
+
     characters = await res.json();
   } catch (error) {
     console.error("Error fetching characters:", error);
