@@ -14,7 +14,7 @@ const CharacterPage = async ({ params }: CharacterPageProps) => {
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
-    }
+    },
   );
 
   if (res.status === 400) {
@@ -23,7 +23,7 @@ const CharacterPage = async ({ params }: CharacterPageProps) => {
 
   const character: Character = await res.json();
   const characterClass = characterClassess.find(
-    (characterClass) => characterClass.id === character.class
+    (characterClass) => characterClass.id === character.class,
   );
 
   return (

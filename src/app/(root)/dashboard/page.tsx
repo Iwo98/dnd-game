@@ -14,7 +14,7 @@ const DashboardPage = async () => {
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
 
     if (res.status !== 200) {
@@ -37,7 +37,7 @@ const DashboardPage = async () => {
         <div className="flex flex-col gap-2 mt-4">
           {characters.map((character, index) => {
             const logo = characterClassess.find(
-              (characterClass) => characterClass.id === character.class
+              (characterClass) => characterClass.id === character.class,
             );
 
             return (
