@@ -7,14 +7,19 @@ import { Session } from "next-auth";
 interface Props {
   hasSesssionButtons: boolean;
   session: Session | null;
+  logoRedirect?: string;
 }
 
-const Header = ({ hasSesssionButtons, session }: Props) => {
+const Header = ({
+  hasSesssionButtons,
+  session,
+  logoRedirect = "/dashboard",
+}: Props) => {
   return (
     <header className="w-full border-b">
       <div className="p-2 lg:p-4 flex-between">
         <div className="flex-start">
-          <Link href="/" className="flex-start">
+          <Link href={logoRedirect} className="flex-start">
             <Image
               className="rounded-md"
               priority={true}

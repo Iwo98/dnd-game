@@ -28,6 +28,6 @@ export const findUser = (email: string) => {
 
 export const authorize = (email: string, password: string) => {
   return users.find(
-    (user) => email === user.email && password === user.password
+    (user) => email === user.email && password === user.password,
   );
 };

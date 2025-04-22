@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
+import { signIn } from "next-auth/react";
 
 const loginSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
@@ -53,7 +54,14 @@ const RegisterPage = () => {
     }
 
     form.reset();
-    router.push("/login");
+
+    await signIn("credentials", {
+      redirect: false,
+      email: email,
+      password: password,
+    });
+
+    router.push("/dashboard");
   };
 
   return (
