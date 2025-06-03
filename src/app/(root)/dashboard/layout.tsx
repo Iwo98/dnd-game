@@ -1,5 +1,3 @@
-// import Footer from "@/components/footer";
-
 import Header from "@/src/components/shared/header";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/src/auth";

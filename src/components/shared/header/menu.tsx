@@ -10,21 +10,21 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/src/components/ui/sheet";
-import { Session } from "next-auth";
+import { CustomSession } from "@/src/types/authentication";
 
 interface Props {
   hasSesssionButtons: boolean;
-  session: Session | null;
+  session: CustomSession | null;
 }
 
 const Menu = async ({ hasSesssionButtons, session }: Props) => {
   const sessionButtons = (
     <>
-      {session?.user.username ? (
+      {session?.username ? (
         <div className="flex flex-col items-start gap-4 md:flex-row md:items-center">
           <div className="flex align-middle gap-1">
             <UserIcon height={20} />
-            <span>{session.user.username}</span>
+            <span>{session.username}</span>
           </div>
           <LogoutButton session={session} />
         </div>

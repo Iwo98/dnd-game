@@ -30,10 +30,6 @@ export const sampleCharacters: Character[] = [
   },
 ];
 
-export const getCharacters = () => {
-  return sampleCharacters;
-};
-
 export const getCharacterById = (id: string) => {
   return sampleCharacters.find((character) => character.id === id);
 };

@@ -2,7 +2,6 @@
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Button } from "@/src/components/ui/button";
 import {
@@ -15,53 +14,86 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { signIn } from "next-auth/react";
+import api from "@/src/lib/axios";
+import { AuthResponseSchema } from "@/src/types/authentication";
+import { AxiosError } from "axios";
 
-const loginSchema = z.object({
-  email: z.string().min(1, "Email is required").email("Invalid email"),
-  username: z.string().min(1, "Nickname must be at least 3 characters"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
+const loginSchema = z
+  .object({
+    email: z.string().min(1, "Email is required").email("Invalid email"),
+    username: z.string().min(1, "Nickname must be at least 3 characters"),
+    password1: z.string().min(6, "Password must be at least 6 characters"),
+    password2: z.string().min(6, "Password must be at least 6 characters"),
+  })
+  .refine((data) => data.password1 === data.password2, {
+    message: "Passwords must match",
+    path: ["password2"],
+  });
+
+type LoginFormKeys = keyof z.infer<typeof loginSchema>;
 
 const RegisterPage = () => {
-  const router = useRouter();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       username: "",
-      password: "",
+      password1: "",
+      password2: "",
     },
   });
 
   const onSubmit = async ({
     email,
-    password,
+    password1,
+    password2,
     username,
   }: z.infer<typeof loginSchema>) => {
-    const res = await fetch("/api/register", {
-      method: "POST",
-      body: JSON.stringify({ email, password, username }),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (!res.ok) {
-      const errorData = await res.json();
-      form.setError("password", {
-        type: "manual",
-        message: errorData.error,
+    try {
+      const response = await api.post("auth/register/", {
+        email,
+        password1,
+        password2,
+        username,
       });
-      return;
+
+      // TODO LOOK INTO THIS ZOD VALIDATION
+      const parsedResponse = AuthResponseSchema.safeParse(response.data);
+
+      if (!parsedResponse.success) {
+        console.error("Error", parsedResponse.error);
+        form.setError("root", { message: parsedResponse.error.message });
+        return;
+      }
+
+      if (parsedResponse.success) {
+        await signIn("credentials", {
+          redirect: true,
+          username: username,
+          password: password1,
+          callbackUrl: "/dashboard",
+        });
+
+        form.reset();
+      }
+    } catch (error) {
+      const axiosErrorResponseData = (error as AxiosError).response?.data;
+
+      if (axiosErrorResponseData) {
+        Object.entries(axiosErrorResponseData).forEach(([key, value]) => {
+          // Ensure the key is a valid form field
+          if (["email", "username", "password1", "password2"].includes(key)) {
+            form.setError(key as LoginFormKeys, {
+              message: value.join(" "),
+            });
+          }
+        });
+      } else {
+        form.setError("root", {
+          message: "An unexpected error occurred",
+        });
+      }
     }
-
-    form.reset();
-
-    await signIn("credentials", {
-      redirect: false,
-      email: email,
-      password: password,
-    });
-
-    router.push("/dashboard");
   };
 
   return (
@@ -100,10 +132,23 @@ const RegisterPage = () => {
         <div className="my-4">
           <FormField
             control={form.control}
-            name="password"
+            name="password1"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input type="password" placeholder="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password2"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Repeat password</FormLabel>
                 <FormControl>
                   <Input type="password" placeholder="password" {...field} />
                 </FormControl>

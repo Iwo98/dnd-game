@@ -2,11 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { APP_NAME } from "@/src/lib/constants";
 import Menu from "./menu";
-import { Session } from "next-auth";
+import { CustomSession } from "@/src/types/authentication";
 
 interface Props {
   hasSesssionButtons: boolean;
-  session: Session | null;
+  session: CustomSession | null;
   logoRedirect?: string;
 }
 

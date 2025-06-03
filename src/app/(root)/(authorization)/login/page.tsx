@@ -17,7 +17,7 @@ import {
 import { Input } from "@/src/components/ui/input";
 
 const loginSchema = z.object({
-  email: z.string().min(1, "Email is required").email("Invalid email"),
+  username: z.string().min(1, "Username"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
@@ -26,19 +26,22 @@ const LoginPage = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
 
-  const onSubmit = async ({ email, password }: z.infer<typeof loginSchema>) => {
+  const onSubmit = async ({
+    username,
+    password,
+  }: z.infer<typeof loginSchema>) => {
     const result = await signIn("credentials", {
       redirect: false,
-      email: email,
+      username: username,
       password: password,
     });
     if (!result?.ok) {
-      form.setError("email", {
+      form.setError("username", {
         type: "manual",
       });
       form.setError("password", {
@@ -58,12 +61,12 @@ const LoginPage = () => {
         <div className="my-2">
           <FormField
             control={form.control}
-            name="email"
+            name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="Email" {...field} />
+                  <Input placeholder="Username" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
