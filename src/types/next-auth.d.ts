@@ -1,32 +1,25 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import NextAuth, { DefaultSession, DefaultUser, User, JWT } from "next-auth";
-import { UserRole } from "@/src/types/user";
+import NextAuth from "next-auth";
+import type { AuthResponse, CustomSession } from "@/src/types/authentication";
 
 declare module "next-auth" {
   /**
-   * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
+   * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context.
+   * Session `user` should only contain immutable variables.
    */
-  interface Session {
-    user: {
-      /** Users role */
-      role: UserRole;
-      username: string;
-    } & DefaultSession["user"];
+  interface Session extends CustomSession {
+    expires?: string;
   }
 
-  /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
-  interface User extends DefaultUser {
-    /** Users role */
-    role: UserRole;
-    username: string;
+  interface User extends AuthResponse {
+    id?: string;
   }
 }
 
 declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
-  interface JWT extends DefaultJWT {
-    /** Users role */
-    role: UserRole;
-    username: string;
+  interface JWT extends AuthResponse {
+    ref: number;
+    expires: string;
   }
 }

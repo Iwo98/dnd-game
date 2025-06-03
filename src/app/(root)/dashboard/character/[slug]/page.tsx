@@ -1,4 +1,4 @@
-import { Character } from "@/src/app/api/characters";
+import { getCharacterById } from "@/src/app/api/characters";
 import Svg from "@/src/components/shared/Svg";
 import { characterClassess } from "@/src/lib/constants/characterClasses";
 import { redirect } from "next/navigation";
@@ -9,21 +9,14 @@ interface CharacterPageProps {
 
 const CharacterPage = async ({ params }: CharacterPageProps) => {
   const { slug } = await params;
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/character/${slug}`,
-    {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    },
-  );
+  const character = getCharacterById(slug);
 
-  if (res.status === 400) {
+  if (!character) {
     redirect("/not-found");
   }
 
-  const character: Character = await res.json();
   const characterClass = characterClassess.find(
-    (characterClass) => characterClass.id === character.class,
+    (characterClass) => characterClass.id === character?.class,
   );
 
   return (
