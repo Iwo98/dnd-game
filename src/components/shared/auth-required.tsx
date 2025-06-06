@@ -1,13 +1,14 @@
 import { authOptions } from "@/src/auth";
+import { UserRole } from "@/src/types/authentication";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 interface Props {
-  role?: "player" | "dm";
+  role: UserRole;
   children: React.ReactElement;
 }
 
-const AuthRequired = async ({ role = "player", children }: Props) => {
+const AuthRequired = async ({ role, children }: Props) => {
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -16,7 +17,7 @@ const AuthRequired = async ({ role = "player", children }: Props) => {
     return null;
   }
 
-  if (session && "player" === role) {
+  if (session && role === "player") {
     return children;
   }
 };

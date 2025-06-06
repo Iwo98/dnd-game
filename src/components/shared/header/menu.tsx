@@ -1,6 +1,11 @@
 import Link from "next/link";
 import ModeToggle from "./mode-toggle";
-import { EllipsisVertical, UserIcon } from "lucide-react";
+import {
+  EllipsisVertical,
+  SwordsIcon,
+  BrainIcon,
+  UserIcon,
+} from "lucide-react";
 import { Button } from "../../ui/button";
 import LogoutButton from "../../shared/header/logout-button";
 import {
@@ -22,8 +27,12 @@ const Menu = async ({ hasSesssionButtons, session }: Props) => {
     <>
       {session?.username ? (
         <div className="flex flex-col items-start gap-4 md:flex-row md:items-center">
-          <div className="flex align-middle gap-1">
-            <UserIcon height={20} />
+          <div className="flex items-center gap-1">
+            {session.role === "player" ? (
+              <SwordsIcon height={20} width={20} />
+            ) : (
+              <BrainIcon height={24} width={20} />
+            )}
             <span>{session.username}</span>
           </div>
           <LogoutButton session={session} />
