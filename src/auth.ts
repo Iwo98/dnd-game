@@ -70,6 +70,7 @@ export const authOptions = {
     async session({ token }) {
       return {
         username: token.user.username,
+        role: token.user.role,
         expires: token.expires,
         access: token.access,
       };

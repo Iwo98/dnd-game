@@ -55,6 +55,7 @@ const RegisterPage = () => {
         password1,
         password2,
         username,
+        role: "player",
       });
 
       // TODO LOOK INTO THIS ZOD VALIDATION
