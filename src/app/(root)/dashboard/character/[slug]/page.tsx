@@ -24,7 +24,7 @@ const CharacterPage = async ({ params }: CharacterPageProps) => {
       <h1 className="character-name text-3xl font-bold text-red-400 mb-4">
         {character?.name}
       </h1>
-      <div className="character-info space-y-4">
+      <div className="space-y-4">
         <div className="character-class flex items-center space-x-3">
           {characterClass && (
             <>
@@ -39,7 +39,7 @@ const CharacterPage = async ({ params }: CharacterPageProps) => {
             </>
           )}
         </div>
-        <div className="character-race text-lg">
+        <div className="text-lg">
           <span className="font-medium text-red-200">
             Race: <span className="text-zinc-100">{character?.race}</span>
           </span>

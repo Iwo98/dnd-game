@@ -1,7 +1,7 @@
 export interface Character {
   name: string | null;
   class: string | null;
-  level: number | null;
+  level: number;
   id: string | null;
   race: string | null;
 }

@@ -6,8 +6,6 @@ import {
   BrainIcon,
   UserIcon,
 } from "lucide-react";
-import { Button } from "../../ui/button";
-import LogoutButton from "../../shared/header/logout-button";
 import {
   Sheet,
   SheetTrigger,
@@ -16,13 +14,15 @@ import {
   SheetDescription,
 } from "@/src/components/ui/sheet";
 import { CustomSession } from "@/src/types/authentication";
+import LogoutButton from "./logout-button";
+import { Button } from "@/src/components/ui/button";
 
 interface Props {
   hasSesssionButtons: boolean;
   session: CustomSession | null;
 }
 
-const Menu = async ({ hasSesssionButtons, session }: Props) => {
+const Menu = ({ hasSesssionButtons, session }: Props) => {
   const sessionButtons = (
     <>
       {session?.username ? (

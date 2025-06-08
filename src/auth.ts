@@ -54,13 +54,20 @@ export const authOptions = {
       }
       // Refresh the backend token if necessary
       if (getCurrentEpochTime() > token.ref) {
-        const response = await api.post("auth/token/refresh/", {
-          data: { refresh: token.refresh },
-        });
+        try {
+          const response = await api.post("auth/token/refresh/", {
+            refresh: token.refresh,
+          });
 
-        token.access = response.data.access;
-        token.refresh = response.data.refresh;
-        token.ref = getCurrentEpochTime() + BACKEND_ACCESS_TOKEN_LIFETIME;
+          const { access, refresh } = response.data;
+
+          token.access = access;
+          token.refresh = refresh;
+          token.ref = getCurrentEpochTime() + BACKEND_ACCESS_TOKEN_LIFETIME;
+        } catch (error) {
+          console.error("Error refreshing token:", error);
+          return { ...token, error: "RefreshAccessTokenError" };
+        }
       }
       return token;
     },

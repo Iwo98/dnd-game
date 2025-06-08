@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { APP_NAME } from "@/src/lib/constants";
-import Menu from "./menu";
+import Menu from "../components/menu";
 import { CustomSession } from "@/src/types/authentication";
 
 interface Props {
