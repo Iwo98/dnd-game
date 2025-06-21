@@ -3,6 +3,7 @@ import { Iceberg } from "next/font/google";
 import "@/src/assets/styles/globals.css";
 import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/src/lib/constants";
 import { ThemeProvider } from "next-themes";
+import Providers from "./providers";
 
 const inter = Iceberg({ subsets: ["latin"], weight: ["400"], style: "normal" });
 
@@ -23,14 +24,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body className={`${inter.className}`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <Providers>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

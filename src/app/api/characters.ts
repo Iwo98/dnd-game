@@ -8,21 +8,21 @@ export interface Character {
 
 export const sampleCharacters: Character[] = [
   {
-    id: "thalinda_brightwood",
+    id: "6",
     name: "Thalindra Brightwood",
     class: "druid",
     level: 5,
     race: "Wood Elf",
   },
   {
-    id: "gorath_ironfist",
+    id: "7",
     name: "Gorath Ironfist",
     class: "barbarian",
     level: 3,
     race: "Mountain Dwarf",
   },
   {
-    id: "seraphina_duskwatch",
+    id: "8",
     name: "Seraphina Duskwatch",
     class: "sorcerer",
     level: 7,

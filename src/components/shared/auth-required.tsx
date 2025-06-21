@@ -1,5 +1,5 @@
 import { authOptions } from "@/src/auth";
-import { UserRole } from "@/src/types/authentication";
+import { UserRole } from "@/src/types/user";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -13,8 +13,11 @@ const AuthRequired = async ({ role, children }: Props) => {
 
   if (!session) {
     redirect("/");
+  }
 
-    return null;
+  if (session.error) {
+    console.log(session.error);
+    redirect("/logout");
   }
 
   if (session && role === "player") {

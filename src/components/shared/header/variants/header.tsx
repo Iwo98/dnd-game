@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { APP_NAME } from "@/src/lib/constants";
 import Menu from "../components/menu";
-import { CustomSession } from "@/src/types/authentication";
+import { CustomSession } from "@/src/types/user";
 
 interface Props {
   hasSesssionButtons: boolean;

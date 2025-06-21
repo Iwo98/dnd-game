@@ -14,9 +14,9 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { signIn } from "next-auth/react";
-import api from "@/src/lib/axios";
-import { AuthResponseSchema } from "@/src/types/authentication";
+import { AuthResponseSchema } from "@/src/types/user";
 import { AxiosError } from "axios";
+import { register } from "@/src/lib/actions/user";
 
 const loginSchema = z
   .object({
@@ -50,12 +50,11 @@ const RegisterPage = () => {
     username,
   }: z.infer<typeof loginSchema>) => {
     try {
-      const response = await api.post("auth/register/", {
+      const response = await register({
         email,
         password1,
         password2,
         username,
-        role: "player",
       });
 
       // TODO LOOK INTO THIS ZOD VALIDATION

@@ -13,7 +13,7 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/src/components/ui/sheet";
-import { CustomSession } from "@/src/types/authentication";
+import { CustomSession } from "@/src/types/user";
 import LogoutButton from "./logout-button";
 import { Button } from "@/src/components/ui/button";
 
