@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon, SunMoonIcon } from "lucide-react";
 
-import { Button } from "../../ui/button";
+import { Button } from "../../../ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,

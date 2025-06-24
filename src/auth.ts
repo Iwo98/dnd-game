@@ -1,7 +1,7 @@
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { AuthResponse, AuthResponseSchema } from "./types/authentication";
-import api from "./lib/axios";
+import { AuthResponse, AuthResponseSchema } from "./types/user";
+import { logIn, refreshToken } from "./lib/actions/user";
 
 // These two values should be a bit less than actual token lifetimes
 const BACKEND_ACCESS_TOKEN_LIFETIME = 45 * 60; // 45 minutes
@@ -23,8 +23,8 @@ export const authOptions = {
       // `user` variable to the signIn() and jwt() callback
       async authorize(credentials) {
         try {
-          const response = await api.post("auth/login/", credentials);
-          const parsedResponse = AuthResponseSchema.safeParse(response.data);
+          const data = await logIn(credentials);
+          const parsedResponse = AuthResponseSchema.safeParse(data);
 
           if (!parsedResponse.success) {
             console.log("Error", parsedResponse.error);
@@ -54,13 +54,19 @@ export const authOptions = {
       }
       // Refresh the backend token if necessary
       if (getCurrentEpochTime() > token.ref) {
-        const response = await api.post("auth/token/refresh/", {
-          data: { refresh: token.refresh },
-        });
+        try {
+          const { refresh, access } = await refreshToken({
+            refresh: token.refresh,
+          });
 
-        token.access = response.data.access;
-        token.refresh = response.data.refresh;
-        token.ref = getCurrentEpochTime() + BACKEND_ACCESS_TOKEN_LIFETIME;
+          token.access = access;
+          token.refresh = refresh;
+          token.ref = getCurrentEpochTime() + BACKEND_ACCESS_TOKEN_LIFETIME;
+        } catch (error) {
+          console.error("Error refreshing token:", error);
+
+          return { ...token, error: "RefreshAccessTokenError" };
+        }
       }
       return token;
     },
@@ -73,6 +79,7 @@ export const authOptions = {
         role: token.user.role,
         expires: token.expires,
         access: token.access,
+        error: token.error,
       };
     },
   },

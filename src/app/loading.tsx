@@ -1,10 +1,9 @@
-import Image from "next/image";
-import loader from "@/src/assets/loader.gif";
+import Loader from "../components/shared/loader";
 
 const LoadingPage = () => {
   return (
     <div className="flex justify-center items-center h-screen">
-      <Image src={loader} height={50} width={50} alt="Loading" />
+      <Loader />
     </div>
   );
 };

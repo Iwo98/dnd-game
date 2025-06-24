@@ -1,7 +1,7 @@
 // import Footer from "@/src/components/footer";
 
 import { authOptions } from "@/src/auth";
-import Header from "@/src/components/shared/header";
+import Header from "@/src/components/shared/header/variants/header";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
